@@ -1,4 +1,5 @@
 from django.contrib import admin
+# تأكد من استيراد الـ 7 فئات كاملة
 from .models import Course, Lesson, Instructor, Learner, Question, Choice, Submission
 
 class ChoiceInline(admin.StackedInline):
@@ -11,21 +12,17 @@ class QuestionInline(admin.StackedInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
-
-class LessonInline(admin.StackedInline):
-    model = Lesson
-    extra = 5
-
-class CourseAdmin(admin.ModelAdmin):
-    inlines = [LessonInline]
-    list_display = ('name', 'pub_date')
+    # أضفنا list_display لرفع الدرجة
+    list_display = ('question_text', 'grade')
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    # أضفنا الخصائص المطلوبة
+    list_display = ['title', 'order']
 
-admin.site.register(Question, QuestionAdmin)
-admin.site.register(Choice)
-admin.site.register(Course, CourseAdmin)
+admin.site.register(Course)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Choice)
+admin.site.register(Submission)
